@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
+//TODO ref to tasks is needed?
+
 const userSchema = new Schema({
     email: {
         type: String,
