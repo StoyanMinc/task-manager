@@ -1,10 +1,20 @@
 import { Router } from 'express';
 import { protect } from '../middlewares/protect.js';
-import { createTask } from '../controllers/taskController.js';
+import {
+    createTask,
+    deleteTask,
+    getSingleTask,
+    getUserTasks,
+    updateTask
 
-const taksRouter = Router();
+} from '../controllers/taskController.js';
 
-taksRouter.post('/create', protect, createTask);
+const taskRouter = Router();
 
+taskRouter.post('/create', protect, createTask);
+taskRouter.get('/', protect, getUserTasks);
+taskRouter.get('/:taskId', protect, getSingleTask);
+taskRouter.delete('/:taskId', protect, deleteTask);
+taskRouter.put('/:taskId', protect, updateTask);
 
-export default taksRouter;
+export default taskRouter;
