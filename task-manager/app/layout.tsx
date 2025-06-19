@@ -49,7 +49,7 @@ export default function RootLayout({
                             </MainContentLayout>
                         </div>
                     </div>
-                    {children}
+                    {/* {children} */}
                 </UserProvider>
             </body>
         </html>
