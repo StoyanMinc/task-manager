@@ -2,7 +2,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useUserContext } from "./userContext";
-import { Asap, Asar } from "next/font/google";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL
 
@@ -15,6 +14,7 @@ export const TaskProvider = ({ children }) => {
     const [tasks, setTasks] = useState([]);
     const [task, setTask] = useState({});
     const [loading, setLoading] = useState(false);
+    const [priority, setPriority] = useState('all');
 
     const getUserTasks = async () => {
         setLoading(true);
@@ -88,11 +88,13 @@ export const TaskProvider = ({ children }) => {
                 tasks,
                 task,
                 loading,
+                priority,
                 getUserTasks,
                 getSingleTask,
                 createTask,
                 updateTask,
-                deleteTask
+                deleteTask,
+                setPriority
             }} >
             {children}
         </TaskContext.Provider>

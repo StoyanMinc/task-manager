@@ -32,3 +32,16 @@ export interface UserContextType {
     forgotPasswordEmail: (e: React.FormEvent<HTMLFormElement>, email: string) => Promise<void>;
     resetPassword: (token: string, password: string) => Promise<void>;
 }
+
+export interface Task {
+    _id: string,
+    title: string,
+    description: string,
+    dueDate: Date,
+    status: string,
+    priority: string,
+    completed: boolean,
+    owner: string,
+    createdAt: string,
+    updatedAt: string,
+}

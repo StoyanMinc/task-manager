@@ -1,3 +1,4 @@
+import EditModal from "@/app/components/edit-modal/EditModal"
 import React from "react"
 
 interface MainLayoutProps {
@@ -7,6 +8,7 @@ interface MainLayoutProps {
 export default function MainLayout({ children }: MainLayoutProps) {
     return (
         <div className="main-layout flex-1 bg-[#ededed] border-2 border-white rounded-[1.5em] overflow-auto">
+            <EditModal />
             {children}
         </div>
     )

@@ -5,22 +5,14 @@ import { useEffect } from "react";
 
 
 const useRedirectUser = (redirect: string) => {
-    const { userLoginStatus } = useUserContext();
+    const { user } = useUserContext();
     const router = useRouter();
 
     useEffect(() => {
-        const redirectUser = async () => {
-            try {
-                const isLoggedUser = await userLoginStatus();
-                if (!isLoggedUser) {
-                    router.push(redirect);
-                }
-            } catch (error) {
-                console.log('Error redirecting user:', error);
-            }
-        };
-        redirectUser();
-    }, [redirect, router, userLoginStatus])
+        if (!user || !user._id) {
+            router.push(redirect);
+        }
+    }, [redirect, router, user])
 };
 
 export default useRedirectUser;
