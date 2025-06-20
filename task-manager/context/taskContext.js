@@ -2,6 +2,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useUserContext } from "./userContext";
+import toast from "react-hot-toast";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL
 
@@ -12,9 +13,17 @@ export const TaskProvider = ({ children }) => {
     const { user } = useUserContext();
 
     const [tasks, setTasks] = useState([]);
-    const [task, setTask] = useState({});
+    const [task, setTask] = useState({
+        title: '',
+        description: '',
+        priority: 'low',
+        dueDate: '',
+        completed: false
+
+    });
     const [loading, setLoading] = useState(false);
     const [priority, setPriority] = useState('all');
+    const [showTaskModal, setShowTaskModal] = useState(false);
 
     const getUserTasks = async () => {
         setLoading(true);
@@ -44,8 +53,22 @@ export const TaskProvider = ({ children }) => {
     const createTask = async (taskData) => {
         setLoading(true);
         try {
-            const response = await axios.post(`${BASE_URL}/api/tasks`, taskData, { withCredentials: true });
+            if (!taskData.title || !taskData.description || !taskData.priority || !taskData.dueDate) {
+                toast.error('All fields are required!');
+                console.log(task)
+                return
+            }
+            const response = await axios.post(`${BASE_URL}/api/tasks/create`, taskData, { withCredentials: true });
             setTasks((prev) => ([...prev, response.data]))
+            setTask({
+                title: '',
+                description: '',
+                priority: 'low',
+                dueDate: '',
+                completed: false
+            })
+            toast.success('Successfully created a new task!');
+            setShowTaskModal(false);
         } catch (error) {
             console.log('Error creating task:', error);
         } finally {
@@ -68,14 +91,23 @@ export const TaskProvider = ({ children }) => {
     const deleteTask = async (taskId) => {
         setLoading(true);
         try {
-            await axios.delete(`${BASE_URL}/api.tasks/${taskId}`, { withCredentials: true });
+            await axios.delete(`${BASE_URL}/api/tasks/${taskId}`, { withCredentials: true });
             setTasks(tasks.filter((task) => task._id !== taskId));
+            toast.success('Successfully delete a task!');
         } catch (error) {
             console.log('Error deleting task:', error);
         } finally {
             setLoading(false);
         }
     };
+
+    const handleInput = (name) => (e) => {
+        const value = e.target.value;
+        setTask((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
     useEffect(() => {
         if (user?._id) {
             getUserTasks();
@@ -89,12 +121,16 @@ export const TaskProvider = ({ children }) => {
                 task,
                 loading,
                 priority,
+                showTaskModal,
                 getUserTasks,
                 getSingleTask,
                 createTask,
                 updateTask,
                 deleteTask,
-                setPriority
+                setPriority,
+                handleInput,
+                setShowTaskModal,
+
             }} >
             {children}
         </TaskContext.Provider>

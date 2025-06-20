@@ -1,3 +1,4 @@
+import { useTaskContext } from "@/context/taskContext";
 import { Task } from "@/types/user";
 import { edit, star, trash } from "@/utils/icons";
 import { parseTime } from "@/utils/parseTime";
@@ -7,6 +8,8 @@ interface Props {
 }
 
 export default function TaskItem({ task }: Props) {
+
+    const { deleteTask } = useTaskContext();
 
     const colorPriority = (priority: string) => {
         switch (priority) {
@@ -21,11 +24,15 @@ export default function TaskItem({ task }: Props) {
         }
     }
 
+    const deleteTaskHandler = async () => {
+        await deleteTask(task._id)
+    }
+
     return (
         <div className="h-[16rem] px-4 py-3 flex flex-col gap-4 shadow-sm bg-[#f9f9f9] rounded-xl border-2 border-white">
             <div>
-                <h4 className="font-bold text-3xl">{task.title}</h4>
-                <p>{task.description}</p>
+                <h4 className="font-bold text-2xl">{task.title}</h4>
+                <p className="mt-5">{task.description}</p>
             </div>
             <div className="mt-auto flex justify-between items-center">
                 <p className="text-gray-400 text-sm">{parseTime(task.createdAt)}</p>
@@ -33,7 +40,7 @@ export default function TaskItem({ task }: Props) {
                 <div className="flex gap-2">
                     <button className={`${task.completed ? 'text-yellow-400' : 'text-gray-300'}`}>{star}</button>
                     <button className="text-blue-500">{edit}</button>
-                    <button className="text-red-500">{trash}</button>
+                    <button className="text-red-500 cursor-pointer" onClick={() => deleteTaskHandler()}>{trash}</button>
                 </div>
             </div>
         </div>
