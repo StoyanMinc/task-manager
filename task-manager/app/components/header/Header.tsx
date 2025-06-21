@@ -25,7 +25,7 @@ export default function Header() {
             </div>
             <div className="h-[50px] flex items-center gap-[10rem]">
                 <button
-                    className="bg-[#3aafae] text-white px-8 py-3 rounded-[50px] hover:bg-[#00a1f1] transition-all duration-300 ease-in-out"
+                    className="bg-[#3aafae] text-white px-8 py-3 rounded-[50px] hover:bg-[rgb(73,160,158)] ease-in-out transition duration-400"
                 >
                     Create a new task
                 </button>

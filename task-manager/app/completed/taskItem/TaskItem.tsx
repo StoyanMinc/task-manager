@@ -9,7 +9,7 @@ interface Props {
 
 export default function TaskItem({ task }: Props) {
 
-    const { deleteTask } = useTaskContext();
+    const { deleteTask, setTask, setShowTaskModal, setEditTaskMode } = useTaskContext();
 
     const colorPriority = (priority: string) => {
         switch (priority) {
@@ -24,14 +24,27 @@ export default function TaskItem({ task }: Props) {
         }
     }
 
+    const showUpdateModalTaskHandler = async () => {
+        setTask({
+            title: task.title,
+            description: task.description,
+            priority: task.priority,
+            dueDate: task.dueDate,
+            completed: task.completed,
+            _id: task._id
+        });
+
+        setShowTaskModal(true);
+        setEditTaskMode(true);
+    }
     const deleteTaskHandler = async () => {
         await deleteTask(task._id)
     }
 
     return (
-        <div className="h-[16rem] px-4 py-3 flex flex-col gap-4 shadow-sm bg-[#f9f9f9] rounded-xl border-2 border-white">
+        <div className="h-[16rem] px-3 py-2 flex flex-col gap-4 shadow-sm bg-[#f9f9f9] rounded-xl border-2 border-white">
             <div>
-                <h4 className="font-bold text-2xl">{task.title}</h4>
+                <h4 className="font-bold text-1xl">{task.title}</h4>
                 <p className="mt-5">{task.description}</p>
             </div>
             <div className="mt-auto flex justify-between items-center">
@@ -39,8 +52,8 @@ export default function TaskItem({ task }: Props) {
                 <p className={`${colorPriority(task.priority)} font-bold text-sm`}>{task.priority}</p>
                 <div className="flex gap-2">
                     <button className={`${task.completed ? 'text-yellow-400' : 'text-gray-300'}`}>{star}</button>
-                    <button className="text-blue-500">{edit}</button>
-                    <button className="text-red-500 cursor-pointer" onClick={() => deleteTaskHandler()}>{trash}</button>
+                    <button className="text-blue-500" onClick={showUpdateModalTaskHandler}>{edit}</button>
+                    <button className="text-red-500 cursor-pointer" onClick={deleteTaskHandler}>{trash}</button>
                 </div>
             </div>
         </div>

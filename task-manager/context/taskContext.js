@@ -18,11 +18,13 @@ export const TaskProvider = ({ children }) => {
         description: '',
         priority: 'low',
         dueDate: '',
-        completed: false
+        completed: false,
+        _id: ''
 
     });
     const [loading, setLoading] = useState(false);
     const [priority, setPriority] = useState('all');
+    const [editTaskMode, setEditTaskMode] = useState(false);
     const [showTaskModal, setShowTaskModal] = useState(false);
 
     const getUserTasks = async () => {
@@ -55,7 +57,6 @@ export const TaskProvider = ({ children }) => {
         try {
             if (!taskData.title || !taskData.description || !taskData.priority || !taskData.dueDate) {
                 toast.error('All fields are required!');
-                console.log(task)
                 return
             }
             const response = await axios.post(`${BASE_URL}/api/tasks/create`, taskData, { withCredentials: true });
@@ -65,7 +66,7 @@ export const TaskProvider = ({ children }) => {
                 description: '',
                 priority: 'low',
                 dueDate: '',
-                completed: false
+                completed: false,
             })
             toast.success('Successfully created a new task!');
             setShowTaskModal(false);
@@ -81,6 +82,8 @@ export const TaskProvider = ({ children }) => {
         try {
             const response = await axios.put(`${BASE_URL}/api/tasks/${task._id}`, task, { withCredentials: true });
             setTasks(tasks.map((task) => (task._id === response.data._id ? response.data : task)));
+            setEditTaskMode(false);
+            setShowTaskModal(false);
         } catch (error) {
             console.log('Error updating task:', error);
         } finally {
@@ -122,15 +125,17 @@ export const TaskProvider = ({ children }) => {
                 loading,
                 priority,
                 showTaskModal,
+                editTaskMode,
                 getUserTasks,
                 getSingleTask,
                 createTask,
                 updateTask,
                 deleteTask,
+                setTask,
                 setPriority,
                 handleInput,
                 setShowTaskModal,
-
+                setEditTaskMode
             }} >
             {children}
         </TaskContext.Provider>

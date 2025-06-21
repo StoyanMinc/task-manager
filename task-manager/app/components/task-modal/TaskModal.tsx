@@ -1,26 +1,30 @@
 'use client'
 import { useTaskContext } from "@/context/taskContext"
+import moment from 'moment'
 
 export default function TaskModal() {
 
-    const { task, handleInput, createTask, setShowTaskModal } = useTaskContext();
+    const { task, handleInput, createTask, setShowTaskModal, updateTask, editTaskMode } = useTaskContext();
 
     const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         await createTask(task);
-
     }
 
-      const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const updateTaskHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        await updateTask(task);
+    }
+    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
             setShowTaskModal(false);
         }
     };
-    
+
     return (
         <div className="fixed top-0 left-0 z-50 w-full h-full bg-[#333]/30 overflow-hidden" onClick={handleOverlayClick}>
             <form
-                onSubmit={submitHandler}
+                onSubmit={editTaskMode ? updateTaskHandler : submitHandler}
                 className="bg-white px-6 py-5 w-full rounded-lg shadow-lg max-w-[520px] gap-3 absolute left-1/2 top-1/2 flex flex-col transform -translate-x-1/2 -translate-y-1/2">
                 <h2 className="self-center text-[20px] font-bold">Create Task</h2>
                 <div className="flex flex-col gap-1">
@@ -68,7 +72,8 @@ export default function TaskModal() {
                         type="date"
                         id="dueDate"
                         name="dueDate"
-                        value={task.dueDate}
+                        // placeholder={task.dueDate ? moment("2025-06-22T00:00:00.000Z").format("DD.MM.YYYY") : ''}
+                        value={task.dueDate ? moment(task.dueDate).format("YYYY-MM-DD") : ''}
                         onChange={(e) => handleInput('dueDate')(e)}
                     />
                 </div>
@@ -89,7 +94,21 @@ export default function TaskModal() {
                     </div>
                 </div>
                 {/* //todo style button like create task */}
-                <button className="mt-7">Edit task</button>
+                {editTaskMode ? (
+                    <button
+                        className=
+                        "mt-7 bg-[#3aafae] self-center px-3 py-2 rounded-xl text-white hover:bg-[rgb(73,160,158)] ease-in-out transition duration-400"
+                    >
+                        Edit task
+                    </button>
+                ) : (
+
+                    <button
+                        className=
+                        "mt-7 bg-[#3aafae] self-center px-3 py-2 rounded-xl text-white hover:bg-[rgb(73,160,158)] ease-in-out transition duration-400"
+                    >
+                        Create task
+                    </button>)}
             </form>
         </div>
     )
