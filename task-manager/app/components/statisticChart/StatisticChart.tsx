@@ -1,49 +1,51 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useTaskContext } from "@/context/taskContext"
 
 export const description = "A radial chart with stacked sections"
 
 const chartConfig = {
-    desktop: {
-        label: "Completed",
-        color: "var(--chart-1)",
-    },
-    mobile: {
-        label: "Pending",
-        color: "var(--chart-2)",
-    },
+  desktop: {
+    label: "Completed",
+    color: "var(--chart-1)",
+  },
+  mobile: {
+    label: "Pending",
+    color: "var(--chart-2)",
+  },
 } satisfies ChartConfig
 
 export default function StatisticChart() {
-    const totalTasks = 1000
-    const chartData = [
-        {
-            completed: 80,
-            pending: 20
-        }
-    ]
+  const { tasks, tasksInProgress, completedTasks } = useTaskContext();
 
-    return (
+  const totalTasks = tasks.length
+  const chartData = [
+    {
+      completed: completedTasks.length,
+      open: tasksInProgress.length
+    }
+  ]
+
+  return (
     <Card className="flex flex-col border-2 border-white shadow-nonebg-[ededed]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Task Completion Overview</CardTitle>
+        <CardTitle>Completed vs Open</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
@@ -56,7 +58,7 @@ export default function StatisticChart() {
             endAngle={180}
             innerRadius={80}
             outerRadius={130}
-            >
+          >
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
@@ -95,7 +97,7 @@ export default function StatisticChart() {
               className="stroke-transparent stroke-2"
             />
             <RadialBar
-              dataKey="pending"
+              dataKey="open"
               fill="var(--color-mobile)"
               stackId="a"
               cornerRadius={5}
@@ -106,7 +108,7 @@ export default function StatisticChart() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-         Live data based on recent activity
+          Live data based on recent activity
         </div>
         <div className="text-muted-foreground leading-none">
           Showing total tasks for the last 6 months

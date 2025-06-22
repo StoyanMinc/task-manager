@@ -25,14 +25,7 @@ export default function TaskItem({ task }: Props) {
     }
 
     const showUpdateModalTaskHandler = async () => {
-        setTask({
-            title: task.title,
-            description: task.description,
-            priority: task.priority,
-            dueDate: task.dueDate,
-            completed: task.completed,
-            _id: task._id
-        });
+        setTask(task);
 
         setShowTaskModal(true);
         setEditTaskMode(true);

@@ -6,6 +6,7 @@ import Link from "next/link";
 
 export default function Header() {
     const { user } = useUserContext();
+    const {showCreateModalTaskHandler, tasksInProgress} = useTaskContext();
     return (
         <header className="w-full px-6 my-4 flex items-center justify-between bg-[#f9f9f9]">
             <div>
@@ -16,7 +17,7 @@ export default function Header() {
                 <p className="text-sm">
                     {user._id ? (
                         <>
-                            You hav <span className="font-bold text-[#3aafae]">5</span> active tasks
+                            You hav <span className="font-bold text-[#3aafae]">{tasksInProgress.length}</span> active tasks
                         </>
                     ) : (
                         'Please login or register to view your tasks!'
@@ -26,6 +27,7 @@ export default function Header() {
             <div className="h-[50px] flex items-center gap-[10rem]">
                 <button
                     className="bg-[#3aafae] text-white px-8 py-3 rounded-[50px] hover:bg-[rgb(73,160,158)] ease-in-out transition duration-400"
+                    onClick={showCreateModalTaskHandler}
                 >
                     Create a new task
                 </button>

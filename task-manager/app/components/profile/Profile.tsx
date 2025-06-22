@@ -1,10 +1,12 @@
 'use client'
 
+import { useTaskContext } from "@/context/taskContext";
 import { useUserContext } from "@/context/userContext"
 import Image from "next/image";
 
 export default function Profile() {
     const { user } = useUserContext();
+    const { tasks, completedTasks, tasksInProgress } = useTaskContext();
 
     return (
         <div className="m-6">
@@ -31,33 +33,33 @@ export default function Profile() {
                         <p className="text-[14px]">Total tasks:</p>
                         <p className="pl-4 relative flex gap-2">
                             <span className="absolute h-[70%] w-[0.2rem] left-[1px] top-[19%] translate-4-[-50%] bg-purple-500 rounded-[5px]"></span>
-                            <span className="font-medium text-2xl text-[#333]">30</span>
+                            <span className="font-medium text-2xl text-[#333]">{tasks.length}</span>
                         </p>
                     </div>
                     <div className="text-gray-400">
                         <p className="text-[14px]">In progress:</p>
                         <p className="pl-4 relative flex gap-2">
                             <span className="absolute h-[70%] w-[0.2rem] left-[1px] top-[19%] translate-4-[-50%] bg-blue-400 rounded-[5px]"></span>
-                            <span className="font-medium text-2xl text-[#333]">10</span>
+                            <span className="font-medium text-2xl text-[#333]">{tasksInProgress.length}</span>
                         </p>
                     </div>
                     <div className="text-gray-400">
                         <p className="text-[14px]">Open tasks:</p>
                         <p className="pl-4 relative flex gap-2">
                             <span className="absolute h-[70%] w-[0.2rem] left-[1px] top-[19%] translate-4-[-50%] bg-orange-300 rounded-[5px]"></span>
-                            <span className="font-medium text-2xl text-[#333]">14</span>
+                            <span className="font-medium text-2xl text-[#333]">{tasksInProgress.length}</span>
                         </p>
                     </div>
                     <div className="text-gray-400">
                         <p className="text-[14px]">Completed:</p>
                         <p className="pl-4 relative flex gap-2">
                             <span className="absolute h-[70%] w-[0.2rem] left-[1px] top-[19%] translate-4-[-50%] bg-green-300 rounded-[5px]"></span>
-                            <span className="font-medium text-2xl text-[#333]">13</span>
+                            <span className="font-medium text-2xl text-[#333]">{completedTasks.length}</span>
                         </p>
                     </div>
                 </div>
             </div>
-           
+
         </div>
     )
 }

@@ -35,7 +35,7 @@ export default function TaskModal() {
                         id="title"
                         name="title"
                         placeholder="Task title"
-                        value={task.title}
+                        value={task?.title}
                         onChange={(e) => handleInput('title')(e)}
                     />
                 </div>
@@ -93,22 +93,13 @@ export default function TaskModal() {
                         </select>
                     </div>
                 </div>
-                {/* //todo style button like create task */}
-                {editTaskMode ? (
-                    <button
-                        className=
-                        "mt-7 bg-[#3aafae] self-center px-3 py-2 rounded-xl text-white hover:bg-[rgb(73,160,158)] ease-in-out transition duration-400"
-                    >
-                        Edit task
-                    </button>
-                ) : (
+                <button
+                    className=
+                    "mt-7 bg-[#3aafae] self-center px-3 py-2 rounded-xl text-white hover:bg-[rgb(73,160,158)] ease-in-out transition duration-400"
+                >
+                    { editTaskMode ? 'Edit task' : 'Create task'}
+                </button>
 
-                    <button
-                        className=
-                        "mt-7 bg-[#3aafae] self-center px-3 py-2 rounded-xl text-white hover:bg-[rgb(73,160,158)] ease-in-out transition duration-400"
-                    >
-                        Create task
-                    </button>)}
             </form>
         </div>
     )

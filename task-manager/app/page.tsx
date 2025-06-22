@@ -2,24 +2,15 @@
 import { useTaskContext } from "@/context/taskContext";
 import useRedirectUser from "@/hooks/useUserRedirect";
 import Filters from "./components/filters/Filters";
-import TaskItem from "./completed/taskItem/TaskItem";
+import TaskItem from "./components/taskItem/TaskItem";
 import { Task } from "@/types/user";
+import { filterTasks } from "@/utils/filterTasks";
 
 export default function Home() {
     useRedirectUser('/login')
-    const { tasks, setTask, setShowTaskModal, setEditTaskMode } = useTaskContext();
+    const { tasks, showCreateModalTaskHandler, priority } = useTaskContext();
 
-    const showCreateModalTaskHandler = () => {
-        setEditTaskMode(false);
-        setShowTaskModal(true);
-        setTask({
-            title: '',
-            description: '',
-            priority: 'low',
-            dueDate: '',
-            completed: false
-        })
-    }
+    const taskToDisplay = filterTasks(tasks, priority);
 
     return (
         <main className="m-6 min-h-screen pb-6">
@@ -28,7 +19,7 @@ export default function Home() {
                 <Filters />
             </div>
             <div className="pb-[2rem] mt-6 grid grid-cols-[repeat(auto-fill,minmax(300px,max-content))] gap-[1.5rem]">
-                {tasks.map((task: Task) => (
+                {taskToDisplay.map((task: Task) => (
                     <TaskItem key={task._id} task={task} />
                 ))}
                 <button

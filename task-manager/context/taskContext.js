@@ -20,7 +20,6 @@ export const TaskProvider = ({ children }) => {
         dueDate: '',
         completed: false,
         _id: ''
-
     });
     const [loading, setLoading] = useState(false);
     const [priority, setPriority] = useState('all');
@@ -55,7 +54,7 @@ export const TaskProvider = ({ children }) => {
     const createTask = async (taskData) => {
         setLoading(true);
         try {
-            if (!taskData.title || !taskData.description || !taskData.priority || !taskData.dueDate) {
+            if (!taskData.title || !taskData.description || !taskData.dueDate) {
                 toast.error('All fields are required!');
                 return
             }
@@ -67,6 +66,7 @@ export const TaskProvider = ({ children }) => {
                 priority: 'low',
                 dueDate: '',
                 completed: false,
+                _id: ''
             })
             toast.success('Successfully created a new task!');
             setShowTaskModal(false);
@@ -84,6 +84,7 @@ export const TaskProvider = ({ children }) => {
             setTasks(tasks.map((task) => (task._id === response.data._id ? response.data : task)));
             setEditTaskMode(false);
             setShowTaskModal(false);
+            toast.success('Task! updated successfully!');
         } catch (error) {
             console.log('Error updating task:', error);
         } finally {
@@ -109,8 +110,26 @@ export const TaskProvider = ({ children }) => {
         setTask((prev) => ({
             ...prev,
             [name]: value
-        }))
-    }
+        }));
+    };
+
+    const showCreateModalTaskHandler = () => {
+        setEditTaskMode(false);
+        setShowTaskModal(true);
+        setTask(
+            {
+                title: '',
+                description: '',
+                priority: 'low',
+                dueDate: '',
+                completed: false,
+                _id: ''
+            })
+    };
+
+    const tasksInProgress = tasks.filter((task) => task.completed === false);
+    const completedTasks = tasks.filter((task) => task.completed === true);
+
     useEffect(() => {
         if (user?._id) {
             getUserTasks();
@@ -122,6 +141,8 @@ export const TaskProvider = ({ children }) => {
             value={{
                 tasks,
                 task,
+                tasksInProgress,
+                completedTasks,
                 loading,
                 priority,
                 showTaskModal,
@@ -135,7 +156,8 @@ export const TaskProvider = ({ children }) => {
                 setPriority,
                 handleInput,
                 setShowTaskModal,
-                setEditTaskMode
+                setEditTaskMode,
+                showCreateModalTaskHandler
             }} >
             {children}
         </TaskContext.Provider>
