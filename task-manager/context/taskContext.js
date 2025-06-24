@@ -25,6 +25,7 @@ export const TaskProvider = ({ children }) => {
     const [priority, setPriority] = useState('all');
     const [editTaskMode, setEditTaskMode] = useState(false);
     const [showTaskModal, setShowTaskModal] = useState(false);
+    const [showProfileModal, setShowProfileModal] = useState(false);
 
     const getUserTasks = async () => {
         setLoading(true);
@@ -127,6 +128,9 @@ export const TaskProvider = ({ children }) => {
             })
     };
 
+    const openProfileModal = () => setShowProfileModal(true);
+    const closeProfileModal = () => setShowProfileModal(false);
+
     const tasksInProgress = tasks.filter((task) => task.completed === false);
     const completedTasks = tasks.filter((task) => task.completed === true);
 
@@ -146,6 +150,7 @@ export const TaskProvider = ({ children }) => {
                 loading,
                 priority,
                 showTaskModal,
+                showProfileModal,
                 editTaskMode,
                 getUserTasks,
                 getSingleTask,
@@ -156,6 +161,8 @@ export const TaskProvider = ({ children }) => {
                 setPriority,
                 handleInput,
                 setShowTaskModal,
+                openProfileModal,
+                closeProfileModal,
                 setEditTaskMode,
                 showCreateModalTaskHandler
             }} >

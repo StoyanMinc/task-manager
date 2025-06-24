@@ -85,7 +85,7 @@ export default function TaskModal() {
                             name="completed"
                             id="completed"
                             className="bg-[#f9f9f9] border rounded-md p-2 cursor-pointer"
-                            value={task.completed ? 'true' : 'false'}
+                            defaultValue={task.completed ? 'true' : 'false'}
                             onChange={(e) => handleInput('completed')(e)}
                         >
                             <option value="false">No</option>

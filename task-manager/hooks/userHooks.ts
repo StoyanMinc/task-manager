@@ -176,7 +176,7 @@ export const useAuthHandlers = ({
         setLoading(true);
 
         try {
-            const response = await axios.post(`${BASE_URL}/api/user/verify-user/${token}`, {
+            const response = await axios.post(`${BASE_URL}/api/user/verify-user/${token}`, {}, {
                 withCredentials: true
             });
             toast.success('Verify user successfully!');

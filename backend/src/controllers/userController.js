@@ -300,7 +300,7 @@ export const resetPassword = async (req, res) => {
 
 export const changePassword = async (req, res) => {
     const { currentPassword, newPassword } = req.body;
-    if (!currentPassword ||!newPassword) {
+    if (!currentPassword || !newPassword) {
         return res.status(400).json({ message: 'All fields are required!' });
     }
     try {

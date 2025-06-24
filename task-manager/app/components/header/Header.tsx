@@ -5,8 +5,8 @@ import { github, logout, moon, profile } from "@/utils/icons";
 import Link from "next/link";
 
 export default function Header() {
-    const { user } = useUserContext();
-    const {showCreateModalTaskHandler, tasksInProgress} = useTaskContext();
+    const { user, logoutHandler } = useUserContext();
+    const { showCreateModalTaskHandler, tasksInProgress, openProfileModal } = useTaskContext();
     return (
         <header className="w-full px-6 my-4 flex items-center justify-between bg-[#f9f9f9]">
             <div>
@@ -50,17 +50,15 @@ export default function Header() {
                     >
                         {moon}
                     </Link>
-                    <Link
-                        href={'https://github.com/Maclinz/taskfyer'}
-                        passHref
-                        target="_blank"
+                    <button
                         rel="noopener noopener"
                         className="h-[40px] w-[40px] text-purple-500 rounded-full flex items-center justify-center text-lg border-2 border-[#e6e6e6]"
+                        onClick={openProfileModal}
                     >
                         {profile}
-                    </Link>
+                    </button>
                     <button
-                        // onClick={onClick}
+                        onClick={logoutHandler}
                         className="h-[40px] w-[40px] text-purple-500 rounded-full flex items-center justify-center text-lg border-2 border-[#e6e6e6] hover:bg-gray-100 transition"
                         title="Logout"
                     >
